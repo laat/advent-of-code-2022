@@ -36,3 +36,16 @@
        (map peek)
        (apply str)))
 ;; => "VGBBJCRMN"
+
+(defn move2 [stacks {from :from to :to n :n}]
+  (assoc stacks
+         from (drop n (stacks from))
+         to (into (stacks to) (reverse (take n (stacks from))))))
+;; part 2
+(let [input (str/split (slurp "day5.input.txt") #"\n\n")
+      stacks (parse-stack (first input))
+      moves (parse-moves (second input))]
+  (->> (reduce move2 stacks moves)
+       (map first)
+       (apply str)))
+;; => "LBBVJBRMH"
